@@ -1,0 +1,15 @@
+---
+# tasks file for ping
+
+- name: Ping from IOS {{ inventory_hostname }}
+  include_tasks: "{{ ping_os }}.yaml"
+  register: output  
+  when: ping_os is defined
+  ignore_errors: yes
+
+- import_role:
+    name: count-checks
+
+- import_role:
+    name: give-point
+  when: output is succeeded

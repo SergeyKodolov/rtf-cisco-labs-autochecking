@@ -1,0 +1,21 @@
+---
+# tasks file for gateway
+
+- name: Get {{ inventory_hostname }} routes
+  shell: route
+  register: output  
+  when: ansible_network_os is undefined
+
+- name: Check {{ inventory_hostname }} gateway
+  assert:
+    that: output.stdout is search("default         172.16.1.1      0.0.0.0")
+    fail_msg: "You need to configure correct default gateway on {{ inventory_hostname }}"
+  register: end
+  ignore_errors: yes
+
+- import_role:
+    name: count-checks
+
+- import_role:
+    name: give-point
+  when: end is succeeded

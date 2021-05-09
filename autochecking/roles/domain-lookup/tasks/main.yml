@@ -1,0 +1,22 @@
+---
+# tasks file for domain-lookup
+
+- name: Get {{ inventory_hostname }} domain-lookup
+  ios_command:
+     commands: sh run | section {{ domain_lookup }}
+  register: output  
+  when: ansible_network_os is defined
+
+- name: Check {{ inventory_hostname }} domain-lookup
+  assert:
+    that: output.stdout[0] == "{{ domain_lookup }}"
+    fail_msg: "Domain-lookup must be disabled"
+  register: end
+  ignore_errors: yes
+
+- import_role:
+    name: count-checks
+
+- import_role:
+    name: give-point
+  when: end is succeeded

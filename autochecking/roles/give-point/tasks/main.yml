@@ -1,0 +1,6 @@
+---
+# tasks file for give-point
+
+- name: Give One Point
+  set_fact: result={{ result | int + 1 }}
+  

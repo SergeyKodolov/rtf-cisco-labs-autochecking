@@ -1,0 +1,22 @@
+---
+# tasks file for startup
+
+- name: Get {{ inventory_hostname }} startup and running config diff
+  ios_command:
+     commands: show archive config differences
+  register: output  
+  when: ansible_network_os is defined
+
+- name: Check {{ inventory_hostname }} startup
+  assert:
+    that: output.stdout[0]|length < 50
+    fail_msg: "You need to save the current configuration on {{ inventory_hostname }}"
+  register: end
+  ignore_errors: yes
+
+- import_role:
+    name: count-checks
+
+- import_role:
+    name: give-point
+  when: end is succeeded

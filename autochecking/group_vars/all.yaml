@@ -1,0 +1,3 @@
+---
+result: "{{lookup('file', './result.txt')}}"
+all: "{{lookup('file', './all.txt')}}"

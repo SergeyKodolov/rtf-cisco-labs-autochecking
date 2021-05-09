@@ -1,0 +1,7 @@
+---
+- name: Ping from IOS {{ inventory_hostname }}
+  ios_ping:
+    dest: "{{ item }}"
+  loop: "{{ ping_to }}"
+  register: output  
+  ignore_errors: yes

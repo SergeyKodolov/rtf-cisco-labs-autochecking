@@ -1,0 +1,10 @@
+all:
+  children:
+    ios:
+      hosts:
+        R1:
+        S1:          
+    
+    linux:
+      hosts: 
+        PC-A:         

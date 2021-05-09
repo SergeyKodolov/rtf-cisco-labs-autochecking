@@ -1,0 +1,22 @@
+---
+# tasks file for hostname
+
+- name: Get {{ inventory_hostname }} hostname
+  ios_command:
+     commands: sh run | section hostname
+  register: output  
+  when: ansible_network_os is defined
+
+- name: Check {{ inventory_hostname }} hostname
+  assert:
+    that: output.stdout[0] == "hostname {{ inventory_hostname }}"
+    fail_msg: "Hostname must be {{ inventory_hostname }}"
+  register: end
+  ignore_errors: yes
+
+- import_role:
+    name: count-checks
+
+- import_role:
+    name: give-point
+  when: end is succeeded

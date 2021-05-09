@@ -1,0 +1,63 @@
+---
+- name: Init global vars
+  hosts: localhost
+  tasks:
+    - name: Create result var
+      copy:
+        dest: "./result.txt"
+        content: 0
+
+    - name: Create all var
+      copy:
+        dest: "./all.txt"
+        content: 0
+
+
+- name: Check S1 Settings
+  hosts: S1
+  roles:
+    - ping
+    - hostname
+    - domain-lookup
+    - banner
+    - startup
+    - service-password-encryption
+    - exec-timeout
+    - domain-name
+    - login-block
+    - save-global-vars
+
+- name: Check R1 Settings
+  hosts: R1
+  roles:
+    - ping
+    - hostname
+    - domain-lookup
+    - banner
+    - startup
+    - service-password-encryption
+    - min-len-pass
+    - exec-timeout
+    - domain-name
+    - login-block
+    - save-global-vars
+
+- name: Check PC-A Settings
+  hosts: PC-A
+  roles:
+    - ping
+    - gateway
+    - save-global-vars
+
+
+- name: Print results
+  hosts: localhost
+  
+  vars:
+    result: "{{lookup('file', './result.txt')}}"
+    all: "{{lookup('file', './all.txt')}}"
+   
+  tasks:
+    - name: Result
+      debug:
+        msg: Your result is {{ result }}/{{ all }}

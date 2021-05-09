@@ -1,0 +1,22 @@
+---
+# tasks file for min-len-pass
+
+- name: Get {{ inventory_hostname }} min-lenght password
+  ios_command:
+     commands: show run | section security passwords
+  register: output  
+  when: ansible_network_os is defined
+
+- name: Check {{ inventory_hostname }} min-lenght password
+  assert:
+    that: output.stdout[0] == "security passwords min-length 12"
+    fail_msg: "The minimum password length must be at least 12 characters on {{ inventory_hostname }}"
+  register: end
+  ignore_errors: yes
+
+- import_role:
+    name: count-checks
+
+- import_role:
+    name: give-point
+  when: end is succeeded

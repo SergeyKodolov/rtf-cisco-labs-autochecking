@@ -1,0 +1,90 @@
+
+version 15.1
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+service compress-config
+!
+hostname S1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable secret 4 5FoasjX0XCdyBMFKgtTWKZr2anXYVGEzk9EDAuLGblM
+!
+username SSHadmin secret 4 .yb5eSgnPsSl9YT9bMB16iq7VN3heLsKHnUhqzDsMIg
+no aaa new-model
+no ipv6 cef
+ipv6 multicast rpf use-bgp
+!
+no ip domain-lookup
+ip domain-name ccna-lab.com
+ip cef
+!
+!
+login block-for 120 attempts 3 within 60
+!
+!
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+!
+!
+!
+vlan internal allocation policy ascending
+!
+ip ssh version 2
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+interface Ethernet0/0
+ no shutdown
+ duplex auto
+!
+interface Ethernet0/1
+ no shutdown
+ duplex auto
+!
+interface Ethernet0/2
+ no shutdown
+ duplex auto
+!
+interface Ethernet0/3
+ shutdown
+ duplex auto
+!
+interface Vlan1
+ no shutdown
+ ip address 172.16.1.11 255.255.255.0
+!
+!
+no ip http server
+!
+!
+!
+!
+!
+!
+control-plane
+!
+banner motd Admin login only!
+!
+line con 0
+ exec-timeout 5 0
+ password 7 145311021F07256A650B1C1B68
+ logging synchronous
+ login
+line aux 0
+line vty 0 4
+ exec-timeout 5 0
+ login local
+ transport input ssh
+!
+end

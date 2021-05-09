@@ -1,0 +1,22 @@
+---
+# tasks file for domain-name
+
+- name: Get {{ inventory_hostname }} domain name
+  ios_command:
+     commands: show run | section {{ domain_name }}
+  register: output  
+  when: ansible_network_os is defined
+
+- name: Check {{ inventory_hostname }} domain name
+  assert:
+    that: output.stdout[0] == "{{ domain_name }}"
+    fail_msg: "Domain name configured incorrectly"
+  register: end
+  ignore_errors: yes
+
+- import_role:
+    name: count-checks
+
+- import_role:
+    name: give-point
+  when: end is succeeded

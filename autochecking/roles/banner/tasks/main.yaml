@@ -1,0 +1,22 @@
+---
+# tasks file for banner
+
+- name: Get {{ inventory_hostname }} banner
+  ios_command:
+     commands: sh run | section banner
+  register: output  
+  when: ansible_network_os is defined
+
+- name: Check {{ inventory_hostname }} banner
+  assert:
+    that: output.stdout[0] != ""
+    fail_msg: "Banner must be created"
+  register: end
+  ignore_errors: yes
+
+- import_role:
+    name: count-checks
+
+- import_role:
+    name: give-point
+  when: end is succeeded

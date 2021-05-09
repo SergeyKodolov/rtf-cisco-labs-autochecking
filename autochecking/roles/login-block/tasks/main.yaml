@@ -1,0 +1,22 @@
+---
+# tasks file for login-block
+
+- name: Get {{ inventory_hostname }} login block
+  ios_command:
+     commands: show run | section login block-for
+  register: output  
+  when: ansible_network_os is defined
+
+- name: Check {{ inventory_hostname }} login block
+  assert:
+    that: output.stdout[0] == "login block-for 120 attempts 3 within 60"
+    fail_msg: "Login blocking is not configured correctly"
+  register: end
+  ignore_errors: yes
+
+- import_role:
+    name: count-checks
+
+- import_role:
+    name: give-point
+  when: end is succeeded

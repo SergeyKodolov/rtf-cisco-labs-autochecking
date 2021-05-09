@@ -1,0 +1,16 @@
+---
+# tasks file for save-global-vars
+
+- name: Overwrite all var
+  copy:
+    dest: "./all.txt"
+    content: |
+      {{ all }}
+  delegate_to: localhost
+
+- name: Overwrite result var
+  copy:
+    dest: "./result.txt"
+    content: |
+      {{ result }}
+  delegate_to: localhost

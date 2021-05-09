@@ -1,0 +1,6 @@
+---
+- name: Ping from Linux {{ inventory_hostname }}
+  shell: ping -c 1 -w 3 {{ item }}
+  loop: "{{ ping_to }}"
+  register: output  
+  ignore_errors: yes

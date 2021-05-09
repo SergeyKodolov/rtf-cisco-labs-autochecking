@@ -1,0 +1,6 @@
+---
+# tasks file for count-checks
+
+- name: Count check
+  set_fact: all={{ all | int + 1 }}
+

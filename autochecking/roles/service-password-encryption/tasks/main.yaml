@@ -1,0 +1,22 @@
+---
+# tasks file for service-password-encryption
+
+- name: Get {{ inventory_hostname }} password-encryption status
+  ios_command:
+     commands: sh run | sec password-encryption
+  register: output  
+  when: ansible_network_os is defined
+
+- name: Check {{ inventory_hostname }} password-encryption status
+  assert:
+    that: output.stdout[0] == "service password-encryption"
+    fail_msg: "Service password-encryption must be enabled"
+  register: end
+  ignore_errors: yes
+
+- import_role:
+    name: count-checks
+
+- import_role:
+    name: give-point
+  when: end is succeeded
