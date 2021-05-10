@@ -1,0 +1,7 @@
+---
+# tasks file for ping-lab-devices
+
+- name: Ping Lab Devices
+  include_tasks: "{{ ping_os }}.yaml"
+  register: output  
+  when: ping_os is defined

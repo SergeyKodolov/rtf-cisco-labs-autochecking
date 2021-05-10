@@ -5,3 +5,7 @@ domain_name: ip domain name ccna-lab.com
 ping_to: 
   - 172.16.1.11
   - 172.16.1.3
+ports_down:
+  - Ethernet0/1.*administratively down down
+  - Ethernet0/2.*administratively down down
+  - Ethernet0/3.*administratively down down

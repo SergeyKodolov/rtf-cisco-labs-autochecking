@@ -4,13 +4,11 @@
 - name: Overwrite all var
   copy:
     dest: "./all.txt"
-    content: |
-      {{ all }}
+    content: "{{ all }}"
   delegate_to: localhost
 
 - name: Overwrite result var
   copy:
     dest: "./result.txt"
-    content: |
-      {{ result }}
+    content: "{{ result }}"
   delegate_to: localhost

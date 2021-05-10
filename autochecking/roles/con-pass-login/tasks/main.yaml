@@ -1,0 +1,24 @@
+---
+# tasks file for con-pass-login
+
+- name: Get {{ inventory_hostname }} Console password and login
+  ios_command:
+     commands: sh run | section line con 0 
+  register: output  
+  when: ansible_network_os is defined
+
+- name: Check {{ inventory_hostname }} Console password and login
+  assert:
+    that: 
+      - output.stdout[0] is search("password 7")
+      - "' login' in output.stdout_lines[0]"
+    fail_msg: "Console password and login configured incorrectly"
+  register: end
+  ignore_errors: yes
+
+- import_role:
+    name: count-checks
+
+- import_role:
+    name: give-point
+  when: end is succeeded

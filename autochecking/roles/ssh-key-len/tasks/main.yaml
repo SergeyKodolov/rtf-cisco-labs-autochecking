@@ -1,0 +1,22 @@
+---
+# tasks file for ssh-key-len
+
+- name: Get {{ inventory_hostname }} RSA key length
+  ios_command:
+     commands: sh ip ssh | begin ssh-rsa A 
+  register: output  
+  when: ansible_network_os is defined
+
+- name: Check {{ inventory_hostname }} RSA key length
+  assert:
+    that: output.stdout_lines[0][2]|length == 52
+    fail_msg: "RSA key lenght must be 1024"
+  register: end
+  ignore_errors: yes
+
+- import_role:
+    name: count-checks
+
+- import_role:
+    name: give-point
+  when: end is succeeded

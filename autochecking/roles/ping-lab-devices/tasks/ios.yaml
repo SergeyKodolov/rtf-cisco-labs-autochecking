@@ -1,0 +1,4 @@
+---
+- name: Ping from IOS
+  net_ping:
+    dest: 172.16.1.4

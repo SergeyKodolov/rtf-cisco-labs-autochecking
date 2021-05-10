@@ -11,12 +11,18 @@
       copy:
         dest: "./all.txt"
         content: 0
+        
 
+- name: Check Lab Devices Availability
+  hosts: all
+  roles:
+    - ping-lab-devices
+    
 
 - name: Check S1 Settings
   hosts: S1
   roles:
-    - ping
+    - ping-neighbours
     - hostname
     - domain-lookup
     - banner
@@ -25,12 +31,20 @@
     - exec-timeout
     - domain-name
     - login-block
+    - ssh-version
+    - ssh-key-len
+    - vty-only-ssh
+    - ssh-admin-secret
+    - enable-secret
+    - con-pass-login
+    - vty-login-local
+    - ports-down
     - save-global-vars
 
 - name: Check R1 Settings
   hosts: R1
   roles:
-    - ping
+    - ping-neighbours
     - hostname
     - domain-lookup
     - banner
@@ -40,12 +54,20 @@
     - exec-timeout
     - domain-name
     - login-block
+    - ssh-version
+    - ssh-key-len
+    - vty-only-ssh
+    - ssh-admin-secret
+    - enable-secret
+    - con-pass-login
+    - vty-login-local
+    - ports-down
     - save-global-vars
 
 - name: Check PC-A Settings
   hosts: PC-A
   roles:
-    - ping
+    - ping-neighbours
     - gateway
     - save-global-vars
 

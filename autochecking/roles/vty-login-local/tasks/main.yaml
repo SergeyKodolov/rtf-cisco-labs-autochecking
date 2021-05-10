@@ -1,0 +1,24 @@
+---
+# tasks file for vty-login-local
+
+- name: Get {{ inventory_hostname }} VTY password and login
+  ios_command:
+     commands: sh run | section line vty 0 4
+  register: output  
+  when: ansible_network_os is defined
+
+- name: Check {{ inventory_hostname }} VTY password and login
+  assert:
+    that: 
+      - not output.stdout[0] is search("password 7")
+      - "' login local' in output.stdout_lines[0]"
+    fail_msg: "VTY login must bo local"
+  register: end
+  ignore_errors: yes
+
+- import_role:
+    name: count-checks
+
+- import_role:
+    name: give-point
+  when: end is succeeded

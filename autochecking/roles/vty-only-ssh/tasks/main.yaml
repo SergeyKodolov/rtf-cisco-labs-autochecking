@@ -1,0 +1,22 @@
+---
+# tasks file for vty-only-ssh
+
+- name: Get {{ inventory_hostname }} VTY transport input protocol
+  ios_command:
+     commands: sh run | section transport 
+  register: output  
+  when: ansible_network_os is defined
+
+- name: Check {{ inventory_hostname }} VTY transport input protocol
+  assert:
+    that: output.stdout[0] is search("transport input ssh")
+    fail_msg: "VTY transport input protocol must be SSH only"
+  register: end
+  ignore_errors: yes
+
+- import_role:
+    name: count-checks
+
+- import_role:
+    name: give-point
+  when: end is succeeded

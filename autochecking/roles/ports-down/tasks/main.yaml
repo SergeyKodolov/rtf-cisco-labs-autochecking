@@ -1,0 +1,23 @@
+---
+# tasks file for ports-down
+
+- name: Get {{ inventory_hostname }} Interfaces state
+  ios_command:
+     commands: sh ip interface br | section Ethernet
+  register: output  
+  when: ansible_network_os is defined
+
+- name: Check {{ inventory_hostname }} Interfaces state
+  assert:
+    that: output.stdout[0] is search("{{ item }}")
+    fail_msg: "Unused interfaces must be disabled"
+  with_items: "{{ ports_down }}"
+  register: end
+  ignore_errors: yes
+
+- import_role:
+    name: count-checks
+
+- import_role:
+    name: give-point
+  when: end is succeeded

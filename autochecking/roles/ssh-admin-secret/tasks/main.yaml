@@ -1,0 +1,22 @@
+---
+# tasks file for ssh-admin-secret
+
+- name: Get {{ inventory_hostname }} SSHadmin secret
+  ios_command:
+     commands: show run | section username SSHadmin secret 
+  register: output  
+  when: ansible_network_os is defined
+
+- name: Check {{ inventory_hostname }} SSHadmin secret
+  assert:
+    that: output.stdout[0] != ""
+    fail_msg: "SSHadmin password must be secret"
+  register: end
+  ignore_errors: yes
+
+- import_role:
+    name: count-checks
+
+- import_role:
+    name: give-point
+  when: end is succeeded

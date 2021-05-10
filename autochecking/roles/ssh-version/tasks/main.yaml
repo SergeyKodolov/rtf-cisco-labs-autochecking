@@ -1,0 +1,22 @@
+---
+# tasks file for ssh-version
+
+- name: Get {{ inventory_hostname }} ssh version
+  ios_command:
+     commands: sh run | section ip ssh
+  register: output  
+  when: ansible_network_os is defined
+
+- name: Check {{ inventory_hostname }} ssh version
+  assert:
+    that: output.stdout[0] == "ip ssh version 2"
+    fail_msg: "SSH version must be 2"
+  register: end
+  ignore_errors: yes
+
+- import_role:
+    name: count-checks
+
+- import_role:
+    name: give-point
+  when: end is succeeded

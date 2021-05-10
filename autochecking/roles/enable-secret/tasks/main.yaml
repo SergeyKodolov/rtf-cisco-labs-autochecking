@@ -1,0 +1,22 @@
+---
+# tasks file for enable-secret
+
+- name: Get {{ inventory_hostname }} Enable secret
+  ios_command:
+     commands: sh run | section enable secret
+  register: output  
+  when: ansible_network_os is defined
+
+- name: Check {{ inventory_hostname }} Enable secret
+  assert:
+    that: output.stdout[0] != ""
+    fail_msg: "Enable secret must be configured"
+  register: end
+  ignore_errors: yes
+
+- import_role:
+    name: count-checks
+
+- import_role:
+    name: give-point
+  when: end is succeeded

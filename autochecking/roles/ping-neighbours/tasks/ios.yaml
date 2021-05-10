@@ -1,0 +1,6 @@
+---
+- name: Ping from IOS
+  ios_ping:
+    dest: "{{ item }}"
+  loop: "{{ ping_to }}"
+  ignore_errors: yes
