@@ -5,7 +5,7 @@ Contains ansible playbooks for checking device configurations
 **./host_vars/**
 Contains variables for each host
 
-**./host_group/**
+**./group_vars/**
 Contains variables for each group of hosts
 
 **./roles/**
