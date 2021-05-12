@@ -11,8 +11,14 @@
   assert:
     that: output.stdout[0] is search("transport input ssh")
     fail_msg: "VTY transport input protocol must be SSH only"
+    success_msg: "VTY transport input protocol is configured correctly"
   register: end
   ignore_errors: yes
+
+- import_role:
+    name: save-output
+  vars: 
+    txt: "{{ end.msg }}"
 
 - import_role:
     name: count-checks

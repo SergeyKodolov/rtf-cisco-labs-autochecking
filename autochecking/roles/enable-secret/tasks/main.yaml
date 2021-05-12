@@ -11,9 +11,15 @@
   assert:
     that: output.stdout[0] != ""
     fail_msg: "Enable secret must be configured"
+    success_msg: "Enable secret is configured correctly"
   register: end
   ignore_errors: yes
 
+- import_role:
+    name: save-output
+  vars: 
+    txt: "{{ end.msg }}"
+    
 - import_role:
     name: count-checks
 

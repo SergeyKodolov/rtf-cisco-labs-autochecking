@@ -11,8 +11,14 @@
   assert:
     that: output.stdout[0] != ""
     fail_msg: "SSHadmin password must be secret"
+    success_msg: "SSHadmin password is configured correctly"
   register: end
   ignore_errors: yes
+
+- import_role:
+    name: save-output
+  vars: 
+    txt: "{{ end.msg }}"
 
 - import_role:
     name: count-checks

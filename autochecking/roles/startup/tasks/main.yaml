@@ -11,8 +11,14 @@
   assert:
     that: output.stdout[0]|length < 50
     fail_msg: "You need to save the current configuration on {{ inventory_hostname }}"
+    success_msg: "Current configuration on {{ inventory_hostname }} is saved"
   register: end
   ignore_errors: yes
+
+- import_role:
+    name: save-output
+  vars: 
+    txt: "{{ end.msg }}"
 
 - import_role:
     name: count-checks

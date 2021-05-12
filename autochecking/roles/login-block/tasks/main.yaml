@@ -11,8 +11,14 @@
   assert:
     that: output.stdout[0] == "login block-for 120 attempts 3 within 60"
     fail_msg: "Login blocking is not configured correctly"
+    success_msg: "Login blocking is configured correctly"
   register: end
   ignore_errors: yes
+
+- import_role:
+    name: save-output
+  vars: 
+    txt: "{{ end.msg }}"
 
 - import_role:
     name: count-checks

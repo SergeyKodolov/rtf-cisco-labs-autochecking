@@ -11,8 +11,14 @@
   assert:
     that: output.stdout[0] == "service password-encryption"
     fail_msg: "Service password-encryption must be enabled"
+    success_msg: "Service password-encryption is configured correctly"
   register: end
   ignore_errors: yes
+
+- import_role:
+    name: save-output
+  vars: 
+    txt: "{{ end.msg }}"
 
 - import_role:
     name: count-checks

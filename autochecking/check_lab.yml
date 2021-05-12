@@ -11,62 +11,71 @@
       copy:
         dest: "./all.txt"
         content: 0
+
+    - name: Create output var
+      copy:
+        dest: "./output.txt"
+        content: "LAB TEST RESULT:"
         
 
 - name: Check Lab Devices Availability
   hosts: all
   roles:
+    - { role: save-output, txt: "  CHECK LAB DEVICES AVAILABILITY: " }
     - ping-lab-devices
     
 
 - name: Check S1 Settings
   hosts: S1
   roles:
+    - { role: save-output, txt: "  CHECK S1 SETTINGS: " }
     - ping-neighbours
     - hostname
     - domain-lookup
-    - banner
-    - startup
-    - service-password-encryption
-    - exec-timeout
-    - domain-name
-    - login-block
+    #- banner
+    #- startup
+    #- service-password-encryption
+    #- exec-timeout
+    #- domain-name
+    #- login-block
     - ssh-version
     - ssh-key-len
-    - vty-only-ssh
-    - ssh-admin-secret
-    - enable-secret
-    - con-pass-login
-    - vty-login-local
+    #- vty-only-ssh
+    #- ssh-admin-secret
+    #- enable-secret
+    #- con-pass-login
+    #- vty-login-local
     - ports-down
     - save-global-vars
 
 - name: Check R1 Settings
   hosts: R1
   roles:
+    - { role: save-output, txt: "  CHECK R1 SETTINGS: " }
     - ping-neighbours
     - hostname
     - domain-lookup
-    - banner
-    - startup
-    - service-password-encryption
-    - min-len-pass
-    - exec-timeout
-    - domain-name
-    - login-block
+    #- banner
+    #- startup
+    #- service-password-encryption
+    #- min-len-pass
+    #- exec-timeout
+    #- domain-name
+    #- login-block
     - ssh-version
     - ssh-key-len
-    - vty-only-ssh
-    - ssh-admin-secret
-    - enable-secret
-    - con-pass-login
-    - vty-login-local
+    #- vty-only-ssh
+    #- ssh-admin-secret
+    #- enable-secret
+    #- con-pass-login
+    #- vty-login-local
     - ports-down
     - save-global-vars
 
 - name: Check PC-A Settings
   hosts: PC-A
   roles:
+    - { role: save-output, txt: "  CHECK PC-A SETTINGS: " }  
     - ping-neighbours
     - gateway
     - save-global-vars

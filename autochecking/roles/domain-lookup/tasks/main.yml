@@ -11,11 +11,18 @@
   assert:
     that: output.stdout[0] == "{{ domain_lookup }}"
     fail_msg: "Domain-lookup must be disabled"
+    success_msg: "Domain-lookup is configured correctly"
   register: end
   ignore_errors: yes
 
 - import_role:
+    name: save-output
+  vars: 
+    txt: "{{ end.msg }}"
+
+- import_role:
     name: count-checks
+  when: end
 
 - import_role:
     name: give-point

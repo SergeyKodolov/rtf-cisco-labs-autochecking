@@ -1,0 +1,9 @@
+---
+# tasks file to add output to file
+
+- name: Add output
+  lineinfile:
+    path: ./output.txt
+    line: '{{ txt }}'
+    
+  delegate_to: localhost

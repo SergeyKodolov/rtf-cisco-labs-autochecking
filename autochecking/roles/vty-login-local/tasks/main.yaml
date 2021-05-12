@@ -12,9 +12,15 @@
     that: 
       - not output.stdout[0] is search("password 7")
       - "' login local' in output.stdout_lines[0]"
-    fail_msg: "VTY login must bo local"
+    fail_msg: "VTY login must be local"
+    success_msg: "VTY login is configured correctly"
   register: end
   ignore_errors: yes
+
+- import_role:
+    name: save-output
+  vars: 
+    txt: "{{ end.msg }}"
 
 - import_role:
     name: count-checks

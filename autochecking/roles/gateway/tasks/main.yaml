@@ -10,8 +10,14 @@
   assert:
     that: output.stdout is search("default         172.16.1.1      0.0.0.0")
     fail_msg: "You need to configure correct default gateway on {{ inventory_hostname }}"
+    success_msg: "Default gateway is configured correctly"
   register: end
   ignore_errors: yes
+
+- import_role:
+    name: save-output
+  vars: 
+    txt: "{{ end.msg }}"
 
 - import_role:
     name: count-checks

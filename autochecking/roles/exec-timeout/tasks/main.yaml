@@ -13,8 +13,14 @@
       - output.stdout_lines[0][0] is search("exec-timeout 5 0")
       - output.stdout_lines[0][1] is search("exec-timeout 5 0")
     fail_msg: "Exec-timeout is not configured correctly"
+    success_msg: "Exec-timeout is configured correctly"
   register: end
   ignore_errors: yes
+
+- import_role:
+    name: save-output
+  vars: 
+    txt: "{{ end.msg }}"
 
 - import_role:
     name: count-checks

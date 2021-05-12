@@ -11,9 +11,15 @@
   assert:
     that: output.stdout[0] is search("{{ item }}")
     fail_msg: "Unused interfaces must be disabled"
+    success_msg: "Unused interfaces is disabled"
   with_items: "{{ ports_down }}"
   register: end
   ignore_errors: yes
+
+- import_role:
+    name: save-output
+  vars: 
+    txt: "{{ end.msg }}"
 
 - import_role:
     name: count-checks

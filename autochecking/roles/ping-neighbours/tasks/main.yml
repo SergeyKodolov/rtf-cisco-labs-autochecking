@@ -8,6 +8,11 @@
   ignore_errors: yes
 
 - import_role:
+    name: save-output
+  vars: 
+    txt: "{{ output }}"
+
+- import_role:
     name: count-checks
 
 - import_role:

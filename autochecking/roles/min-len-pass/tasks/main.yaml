@@ -11,8 +11,14 @@
   assert:
     that: output.stdout[0] == "security passwords min-length 12"
     fail_msg: "The minimum password length must be at least 12 characters on {{ inventory_hostname }}"
+    success_msg: "The minimum password length is configured correctly on {{ inventory_hostname }}"
   register: end
   ignore_errors: yes
+
+- import_role:
+    name: save-output
+  vars: 
+    txt: "{{ end.msg }}"
 
 - import_role:
     name: count-checks

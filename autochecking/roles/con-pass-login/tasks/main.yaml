@@ -13,8 +13,14 @@
       - output.stdout[0] is search("password 7")
       - "' login' in output.stdout_lines[0]"
     fail_msg: "Console password and login configured incorrectly"
+    success_msg: "Console password and login are configured correctly"
   register: end
   ignore_errors: yes
+
+- import_role:
+    name: save-output
+  vars: 
+    txt: "{{ end.msg }}"
 
 - import_role:
     name: count-checks

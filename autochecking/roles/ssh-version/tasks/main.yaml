@@ -11,8 +11,14 @@
   assert:
     that: output.stdout[0] == "ip ssh version 2"
     fail_msg: "SSH version must be 2"
+    success_msg: "SSH version is configured correctly"
   register: end
   ignore_errors: yes
+
+- import_role:
+    name: save-output
+  vars: 
+    txt: "{{ end.msg }}"
 
 - import_role:
     name: count-checks

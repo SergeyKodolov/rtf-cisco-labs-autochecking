@@ -11,8 +11,14 @@
   assert:
     that: output.stdout_lines[0][2]|length == 52
     fail_msg: "RSA key lenght must be 1024"
+    success_msg: "RSA key lenght is configured correctly"
   register: end
   ignore_errors: yes
+
+- import_role:
+    name: save-output
+  vars: 
+    txt: "{{ end.msg }}"
 
 - import_role:
     name: count-checks

@@ -11,8 +11,14 @@
   assert:
     that: output.stdout[0] == "hostname {{ inventory_hostname }}"
     fail_msg: "Hostname must be {{ inventory_hostname }}"
+    success_msg: "Hostname is configured correctly"
   register: end
   ignore_errors: yes
+
+- import_role:
+    name: save-output
+  vars: 
+    txt: "{{ end.msg }}"
 
 - import_role:
     name: count-checks
